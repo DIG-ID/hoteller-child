@@ -1,0 +1,122 @@
+
+
+.header_style_wrapper
+  #logo_wrapper
+    @apply md:px-8
+    display: flex !important
+    justify-content: space-between
+    align-items: center
+    #menu_wrapper
+      top: initial !important
+      left: 0 !important
+      #nav_wrapper
+        .nav_wrapper_inner
+          #menu_border_wrapper
+            @apply flex items-center w-full
+            #mobile_nav_icon
+              position: relative
+              left: 0
+            .menu-main-menu-fr-container
+              @apply w-full
+              margin-left: initial
+              #main_menu
+                @apply flex ml-4 w-full
+  #logo_right_button
+    @apply flex-nowrap items-center justify-end
+    display: flex !important
+    right: initial !important
+    top: initial !important
+    #lang-nav
+      @apply whitespace-nowrap
+      top: initial !important
+    .header_call_wrapper
+      @apply ml-2 flex items-center
+      .tooltip
+        @apply whitespace-nowrap
+
+
+
+
+.digid-header-booking-btn
+  @apply items-center justify-center uppercase text-blue font-sans text-xs px-2 py-2 ml-4 transition-all duration-500 ease-in-out hover:text-white hover:bg-blue hidden invisible bg-white opacity-0
+  &:hover
+    svg
+      path
+        fill: #FFFFFF
+  svg
+    @apply h-3 mr-1
+    path
+      @apply transition-all duration-500 ease-in-out
+
+
+.top_bar.scroll
+  .digid-header-booking-btn
+    @apply flex visible border border-solid border-blue opacity-100
+
+
+.digid-advantages-sc
+  @apply flex justify-between py-5 px-2 xl:px-12
+  li
+    @apply flex font-['Oswald'] items-center text-[10px] sm:text-sm break-keep whitespace-nowrap mr-[2px] md:mr-0
+    .advantages-booking-button
+      @apply flex items-center justify-center uppercase text-blue font-sans text-xs px-2 py-2 ml-4 transition-all duration-500 ease-in-out hover:text-white hover:bg-blue bg-white border border-solid border-blue
+      &:hover
+        svg
+          path
+            fill: #FFFFFF
+      svg
+        @apply h-3 mr-1
+        path
+          @apply transition-all duration-500 ease-in-out
+    svg
+      @apply w-3 mr-[2px] md:w-4 md:mr-2
+      path
+        @apply fill-blue
+
+#footer_wrapper
+  .footer_bar_wrapper
+    @apply flex lg:justify-between lg:items-center flex-col lg:flex-row
+    .menu-footer-en-container,
+    .menu-footer-menu-container,
+    .menu-footer-menu-fr-container
+      @apply grow lg:order-2
+    #footer_menu
+      @apply flex items-center flex-wrap justify-center
+      li
+        @apply whitespace-nowrap
+    #copyright
+      @apply w-auto lg:order-1
+
+
+
+@media (max-width: 1669px)
+  body.centeralign2 #menu_border_wrapper > div
+    display: none
+
+@media (max-width: 1200px)
+  .header_style_wrapper
+    #logo_wrapper
+      #menu_wrapper
+        margin: 0px
+
+@media (max-width: 961px)
+  .digid-header-booking-btn
+    @apply flex visible opacity-100
+  .digid-advantages-sc
+    li.advantages-booking-button-wrapper
+      @apply hidden invisible
+
+@media (max-width: 767px)
+  .header_style_wrapper
+    #logo_right_button
+      .header_call_wrapper
+        @apply hidden invisible
+  #lang-nav 
+    left: initial !important
+    top: initial
+
+@media (max-width: 560px)
+  #lang-nav 
+    left: initial !important
+    top: initial
+
