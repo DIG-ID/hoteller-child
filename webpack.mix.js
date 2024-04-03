@@ -10,7 +10,7 @@ mix
     jquery: ['$', 'window.jQuery', 'jQuery']
   })
 
-  //.js('src/js/main.js', 'js')
+  .js('src/js/main.js', 'js')
   //.js('assets/js/blog-ajax.js', 'js')
   .sass('src/sass/main.sass', 'css')
   .options({

@@ -129,6 +129,7 @@ function digid_theme_name_scripts() {
 	$theme_version = $the_theme->get( 'Version' );
 	wp_enqueue_style( 'digid-styles', get_stylesheet_directory_uri() . '/dist/css/main.css', array(), $theme_version );
 	wp_enqueue_style( 'aleno-style', 'https://mytools.aleno.me/reservations/v2.0/reservations.css', array(), $theme_version );
+	wp_enqueue_script( 'digid-script', get_stylesheet_directory_uri() . '/dist/js/main.js', array(), $theme_version, true );
 	wp_enqueue_script( 'aleno-script', 'https://mytools.aleno.me/reservations/v2.0/reservations.js', array(), $theme_version, true );
 
 }
