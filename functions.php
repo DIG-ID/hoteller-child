@@ -153,13 +153,13 @@ function digid_advantages_func( $atts, $content = '' ) {
 	$digid_site_lang = apply_filters( 'wpml_current_language', null );
 	switch ($digid_site_lang) :
 		case 'de' :
-			$sc_adv_code .= '<a class="advantages-booking-button" href="https://www.simplebooking.it/ibe/hotelbooking/search?hid=6860&lang=DE#guests=A&in=2021-1-4&out=2021-1-5&coupon=" target="_blank">' . $sc_adv_icon_booking . esc_html( 'Jetzt Buchen' ) . '</a>';
+			$sc_adv_code .= '<a class="advantages-booking-button" href="https://www.simplebooking.it/ibe2/hotel/6860?lang=DE&cur=CHF" target="_blank">' . $sc_adv_icon_booking . esc_html( 'Jetzt Buchen' ) . '</a>';
 			break;
 		case 'en' :
-			$sc_adv_code .= '<a class="advantages-booking-button" href="https://www.simplebooking.it/ibe/hotelbooking/search?hid=6860&lang=EN&_gl=1" target="_blank">' . $sc_adv_icon_booking . esc_html( 'Book now' ) . '</a>';
+			$sc_adv_code .= '<a class="advantages-booking-button" href="https://www.simplebooking.it/ibe2/hotel/6860?lang=EN&cur=CHF" target="_blank">' . $sc_adv_icon_booking . esc_html( 'Book now' ) . '</a>';
 			break;
 		case 'fr' :
-			$sc_adv_code .= '<a class="advantages-booking-button" href="https://www.simplebooking.it/ibe/hotelbooking/search?hid=6860&lang=FR&_gl=1" target="_blank">' . $sc_adv_icon_booking . esc_html( 'Réserver' ) . '</a>';
+			$sc_adv_code .= '<a class="advantages-booking-button" href="https://www.simplebooking.it/ibe2/hotel/6860?lang=FR&cur=CHF" target="_blank">' . $sc_adv_icon_booking . esc_html( 'Réserver' ) . '</a>';
 			break;
 	endswitch;
 	$sc_adv_code .= '</li>';
