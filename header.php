@@ -18,25 +18,6 @@ $tg_menu_layout = hoteller_menu_layout();
 <html <?php language_attributes(); ?> <?php if(isset($hoteller_homepage_style) && !empty($hoteller_homepage_style)) { echo 'data-style="'.esc_attr($hoteller_homepage_style).'"'; } ?> data-menu="<?php echo esc_attr($tg_menu_layout); ?>">
 <head>
 
-<script>
-	window.dataLayer = window.dataLayer || [];
-	function gtag() {
-		dataLayer.push(arguments);
-	}
-	gtag("consent", "default", {
-		ad_storage: "denied",
-		ad_user_data: "denied", 
-		ad_personalization: "denied",
-		analytics_storage: "denied",
-		functionality_storage: "denied",
-		personalization_storage: "denied",
-		security_storage: "granted",
-		wait_for_update: 2000,
-	});
-	gtag("set", "ads_data_redaction", true);
-	gtag("set", "url_passthrough", true);
-</script>
-
 <!-- Google Tag Manager -->
 <script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
 new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
@@ -45,10 +26,6 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
 })(window,document,'script','dataLayer','GTM-5N3G8W9');</script>
 <!-- End Google Tag Manager -->
 
-
-<!-- Start cookieyes banner -->
-<script id="cookieyes" type="text/javascript" src="https://cdn-cookieyes.com/client_data/edf24ffab3fb7f564f73e24a/script.js"></script>
-<!-- End cookieyes banner -->
 
 <link rel="profile" href="http://gmpg.org/xfn/11" />
 <link rel="pingback" href="<?php bloginfo( 'pingback_url' ); ?>" />
