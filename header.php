@@ -7,10 +7,6 @@
 
 if ( ! isset( $content_width ) ) $content_width = 960;
 
-if(session_id() == '') {
-	session_start();
-}
- 
 $hoteller_homepage_style = hoteller_get_homepage_style();
 
 $tg_menu_layout = hoteller_menu_layout();
