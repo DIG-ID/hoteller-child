@@ -10,13 +10,13 @@
  *
  * Assets (CSS + JS) are loaded only on pages that contain this shortcode.
  * Compatible with WPML (de/en/fr) and WP Rocket.
+ *
+ * @package Hoteller_Child
  */
 
 if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
-
-$GLOBALS['sbb_timetable_loaded'] = false;
 
 /**
  * Returns UI labels for the current WPML language.
@@ -84,14 +84,32 @@ function sbb_timetable_get_banners( $tracking ) {
 
 	$titles = array(
 		'swiss-travel-pass' => array(
-			'de' => array( 'title' => 'Swiss Travel Pass', 'desc' => 'Die Schweiz mit einem einzigen Ticket entdecken.' ),
-			'fr' => array( 'title' => 'Swiss Travel Pass', 'desc' => 'Découvrez la Suisse avec un seul billet.' ),
-			'en' => array( 'title' => 'Swiss Travel Pass', 'desc' => 'Discover Switzerland with just a single ticket.' ),
+			'de' => array(
+				'title' => 'Swiss Travel Pass',
+				'desc'  => 'Die Schweiz mit einem einzigen Ticket entdecken.',
+			),
+			'fr' => array(
+				'title' => 'Swiss Travel Pass',
+				'desc'  => 'Découvrez la Suisse avec un seul billet.',
+			),
+			'en' => array(
+				'title' => 'Swiss Travel Pass',
+				'desc'  => 'Discover Switzerland with just a single ticket.',
+			),
 		),
 		'saver-day-pass'    => array(
-			'de' => array( 'title' => 'Sparbillett',        'desc' => 'Ab CHF 29.-, solange Vorrat.' ),
-			'fr' => array( 'title' => 'Billet Supersaver',  'desc' => 'Dès CHF 29.-, dans la limite des stocks disponibles.' ),
-			'en' => array( 'title' => 'Saver Day Pass',     'desc' => 'From CHF 29.-, while stocks last.' ),
+			'de' => array(
+				'title' => 'Sparbillett',
+				'desc'  => 'Ab CHF 29.-, solange Vorrat.',
+			),
+			'fr' => array(
+				'title' => 'Billet Supersaver',
+				'desc'  => 'Dès CHF 29.-, dans la limite des stocks disponibles.',
+			),
+			'en' => array(
+				'title' => 'Saver Day Pass',
+				'desc'  => 'From CHF 29.-, while stocks last.',
+			),
 		),
 	);
 
@@ -129,8 +147,6 @@ function sbb_timetable_get_banners( $tracking ) {
  * @param array $atts Shortcode attributes.
  */
 function sbb_timetable_shortcode( $atts ) {
-	$GLOBALS['sbb_timetable_loaded'] = true;
-
 	$atts = shortcode_atts(
 		array(
 			'from'     => '',
@@ -142,12 +158,9 @@ function sbb_timetable_shortcode( $atts ) {
 		'sbb_timetable'
 	);
 
-	$from_attr = $atts['from'] ? ' value="' . esc_attr( $atts['from'] ) . '"' : '';
-	$to_attr   = $atts['to']   ? ' value="' . esc_attr( $atts['to'] ) . '"'   : '';
-	$tracking  = $atts['tracking'] ? esc_attr( $atts['tracking'] ) : 'affiliate-tracking-type-placeholder';
-
-	$l       = sbb_timetable_get_labels();
-	$banners = sbb_timetable_get_banners( $tracking );
+	$tracking = $atts['tracking'] ? esc_attr( $atts['tracking'] ) : 'affiliate-tracking-type-placeholder';
+	$l        = sbb_timetable_get_labels();
+	$banners  = sbb_timetable_get_banners( $tracking );
 
 	ob_start();
 	?>
@@ -156,7 +169,7 @@ function sbb_timetable_shortcode( $atts ) {
 		<sbb-timetable-form id="sbb-timetable-form">
 			<sbb-timetable-form-field id="sbb-timetable-form-field-from">
 				<label><?php echo esc_html( $l['from'] ); ?></label>
-				<input id="sbb-timetable-form-field-input-from" type="text" name="from"<?php echo $from_attr; ?> />
+				<input id="sbb-timetable-form-field-input-from" type="text" name="from" value="<?php echo esc_attr( $atts['from'] ); ?>" />
 				<sbb-autocomplete id="sbb-timetable-form-field-autocomplete-from"
 					origin="sbb-timetable-form-field-to"
 					trigger="sbb-timetable-form-field-input-from">
@@ -165,7 +178,7 @@ function sbb_timetable_shortcode( $atts ) {
 			<sbb-timetable-form-swap-button></sbb-timetable-form-swap-button>
 			<sbb-timetable-form-field id="sbb-timetable-form-field-to">
 				<label><?php echo esc_html( $l['to'] ); ?></label>
-				<input id="sbb-timetable-form-field-input-to" type="text" name="to"<?php echo $to_attr; ?> />
+				<input id="sbb-timetable-form-field-input-to" type="text" name="to" value="<?php echo esc_attr( $atts['to'] ); ?>" />
 				<sbb-autocomplete id="sbb-timetable-form-field-autocomplete-to"
 					origin="sbb-timetable-form-field-to"
 					trigger="sbb-timetable-form-field-input-to">
@@ -215,8 +228,7 @@ function sbb_timetable_shortcode( $atts ) {
 add_shortcode( 'sbb_timetable', 'sbb_timetable_shortcode' );
 
 /**
- * Checks whether assets should be force-loaded regardless of shortcode presence.
- * True inside the Elementor editor or preview iframe.
+ * Detects whether the current request is inside the Elementor editor or preview.
  */
 function sbb_timetable_is_elementor_context() {
 	if ( ! defined( 'ELEMENTOR_VERSION' ) ) {
@@ -226,16 +238,65 @@ function sbb_timetable_is_elementor_context() {
 	return $plugin->editor->is_edit_mode() || $plugin->preview->is_preview_mode();
 }
 
-// Frontend: inject after shortcode renders (avoids loading on every page).
-add_action(
-	'wp_footer',
-	function () {
-		if ( ! $GLOBALS['sbb_timetable_loaded'] && ! sbb_timetable_is_elementor_context() ) {
-			return;
-		}
-		$base = get_stylesheet_directory_uri() . '/src/vendor/sbb-timetable';
-		echo '<link rel="stylesheet" href="' . esc_url( $base . '/css/smapi-widget.css' ) . '">' . "\n";
-		echo '<script type="module" src="' . esc_url( $base . '/js/smapi-widget.js' ) . '"></script>' . "\n";
-	},
-	5
-);
+/**
+ * Detects whether the current page contains the [sbb_timetable] shortcode,
+ * checking both classic post_content and Elementor's _elementor_data meta.
+ */
+function sbb_timetable_page_has_shortcode() {
+	global $post;
+
+	if ( ! is_a( $post, 'WP_Post' ) ) {
+		return false;
+	}
+
+	if ( has_shortcode( $post->post_content, 'sbb_timetable' ) ) {
+		return true;
+	}
+
+	$elementor_data = get_post_meta( $post->ID, '_elementor_data', true );
+
+	return $elementor_data && false !== strpos( $elementor_data, 'sbb_timetable' );
+}
+
+/**
+ * Enqueues CSS and JS only on pages containing the shortcode.
+ * CSS and JS load in <head> so Web Components have styles before rendering.
+ */
+function sbb_timetable_enqueue_assets() {
+	if ( ! sbb_timetable_page_has_shortcode() && ! sbb_timetable_is_elementor_context() ) {
+		return;
+	}
+
+	$base    = get_stylesheet_directory_uri() . '/src/vendor/sbb-timetable';
+	$version = wp_get_theme()->get( 'Version' );
+
+	wp_enqueue_style(
+		'sbb-timetable-widget',
+		$base . '/css/smapi-widget.css',
+		array(),
+		$version
+	);
+
+	wp_enqueue_script(
+		'sbb-timetable-widget',
+		$base . '/js/smapi-widget.js',
+		array(),
+		$version,
+		false
+	);
+}
+add_action( 'wp_enqueue_scripts', 'sbb_timetable_enqueue_assets' );
+
+/**
+ * Adds type="module" to the SBB widget script tag.
+ *
+ * @param string $tag    The script HTML tag.
+ * @param string $handle The script handle.
+ */
+function sbb_timetable_script_type_module( $tag, $handle ) {
+	if ( 'sbb-timetable-widget' === $handle ) {
+		return str_replace( '<script ', '<script type="module" ', $tag );
+	}
+	return $tag;
+}
+add_filter( 'script_loader_tag', 'sbb_timetable_script_type_module', 10, 2 );
