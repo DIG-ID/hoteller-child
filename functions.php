@@ -141,7 +141,6 @@ function digid_theme_name_scripts() {
 	wp_enqueue_style( 'aleno-style', 'https://mytools.aleno.me/reservations/v2.0/reservations.css', array(), $theme_version );
 	wp_enqueue_script( 'digid-script', get_stylesheet_directory_uri() . '/dist/js/main.js', array(), $theme_version, true );
 	wp_enqueue_script( 'aleno-script', 'https://mytools.aleno.me/reservations/v2.0/reservations.js', array(), $theme_version, true );
-
 }
 add_action( 'wp_enqueue_scripts', 'digid_theme_name_scripts', 99 );
 
@@ -180,3 +179,5 @@ function digid_advantages_func( $atts, $content = '' ) {
 	return $content;
 }
 add_shortcode( 'advantages', 'digid_advantages_func' );
+
+require_once get_stylesheet_directory() . '/inc/sbb-timetable-shortcode.php';
