@@ -1,14 +1,5 @@
 <?php
 
-add_action(
-	'init',
-	function () {
-		if ( session_id() === '' && ! defined( 'REST_REQUEST' ) && ! defined( 'DOING_CRON' ) ) {
-			session_start();
-		}
-	},
-	1
-);
 
 function newIcons()
 {
