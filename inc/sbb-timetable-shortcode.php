@@ -158,7 +158,7 @@ function sbb_timetable_shortcode( $atts ) {
 		'sbb_timetable'
 	);
 
-	$tracking = $atts['tracking'] ? esc_attr( $atts['tracking'] ) : 'affiliate-tracking-type-placeholder';
+	$tracking = $atts['tracking'] ? esc_attr( $atts['tracking'] ) : 'widgetPHWIN 2';
 	$l        = sbb_timetable_get_labels();
 	$banners  = sbb_timetable_get_banners( $tracking );
 
@@ -222,6 +222,26 @@ function sbb_timetable_shortcode( $atts ) {
 		</div>
 		<?php endif; ?>
 	</form>
+	<script>
+	(function () {
+		var _open = window.open.bind(window);
+		window.open = function (url, target, features) {
+			if (typeof url === 'string' && url.indexOf('www.sbb.ch') !== -1) {
+				try {
+					var u = new URL(url);
+					var parts = u.pathname.split('/');
+					if (parts[1] && parts[1].indexOf('-') !== -1) {
+						parts[1] = parts[1].split('-')[0];
+						u.pathname = parts.join('/');
+					}
+					u.searchParams.set('at_type', <?php echo wp_json_encode( $tracking ); ?>);
+					return _open(u.toString(), target, features);
+				} catch (e) {}
+			}
+			return _open(url, target, features);
+		};
+	}());
+	</script>
 	<?php
 	return ob_get_clean();
 }
