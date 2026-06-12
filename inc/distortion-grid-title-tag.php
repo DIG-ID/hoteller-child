@@ -61,31 +61,41 @@ add_action(
 /**
  * 2) Torna os seletores de Cor/Tipografia do título independentes da tag.
  *
- * Os controlos originais do plugin fixam "h2.distortion_grid_item-title"; ao
- * remover o "h2" os estilos continuam a aplicar seja qual for a tag escolhida.
- * Corre na última secção, quando os controlos de estilo já estão registados.
+ * Os controlos originais do plugin fixam "h2.distortion_grid_item-title" nos
+ * seus seletores (controlo de Cor + sub-controlos do group de Tipografia). Ao
+ * remover o prefixo "h2" os estilos continuam a aplicar seja qual for a tag.
+ *
+ * Em vez de atualizar cada controlo individualmente (frágil entre versões do
+ * Elementor, sobretudo para group controls), percorremos todos os controlos já
+ * registados e substituímos a tag fixa por um seletor apenas-de-classe. Corre na
+ * última secção, quando todos os controlos de estilo já estão no stack.
  */
 add_action(
 	'elementor/element/hoteller-distortion-grid/section_link_style/before_section_end',
 	function ( $element ) {
-		// Cor do título.
-		$element->update_control(
-			'title_color',
-			array(
-				'selectors' => array(
-					'{{WRAPPER}} .distortion_grid_item-title' => 'color: {{VALUE}}',
-				),
-			)
-		);
+		foreach ( $element->get_controls() as $control_id => $control ) {
+			if ( empty( $control['selectors'] ) || ! is_array( $control['selectors'] ) ) {
+				continue;
+			}
 
-		// Tipografia do título (group control).
-		$element->update_group_control(
-			\Elementor\Group_Control_Typography::get_type(),
-			array(
-				'name'     => 'title_typography',
-				'selector' => '{{WRAPPER}} div.distortion_grid_item div.distortion_grid_item-content .distortion_grid_item-title',
-			)
-		);
+			$changed       = false;
+			$new_selectors = array();
+			foreach ( $control['selectors'] as $selector => $css ) {
+				$new_selector = str_replace(
+					'h2.distortion_grid_item-title',
+					'.distortion_grid_item-title',
+					$selector
+				);
+				if ( $new_selector !== $selector ) {
+					$changed = true;
+				}
+				$new_selectors[ $new_selector ] = $css;
+			}
+
+			if ( $changed ) {
+				$element->update_control( $control_id, array( 'selectors' => $new_selectors ) );
+			}
+		}
 	},
 	10,
 	1
