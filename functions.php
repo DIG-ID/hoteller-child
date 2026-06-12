@@ -172,3 +172,4 @@ function digid_advantages_func( $atts, $content = '' ) {
 add_shortcode( 'advantages', 'digid_advantages_func' );
 
 require_once get_stylesheet_directory() . '/inc/sbb-timetable-shortcode.php';
+require_once get_stylesheet_directory() . '/inc/distortion-grid-title-tag.php';
