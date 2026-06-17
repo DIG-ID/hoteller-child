@@ -10,6 +10,48 @@ Formato baseado em [Keep a Changelog](https://keepachangelog.com/), versões em
 
 ---
 
+## [1.1.1] — 2026-06-17
+
+### Added
+- **Team Members (Elementor) — tags HTML configuráveis para Name e Title.**
+  O widget `ever-team-members` (plugin "Team Members for Elementor") gerava o
+  nome sempre como `<h2>` e o título como `<h3>`, sem opção no editor.
+  - Implementado **100% no child theme** via hooks do Elementor — não toca no
+    plugin e sobrevive a updates.
+  - Dois controlos SELECT ("HTML Tag do Nome" / "HTML Tag do Título", H1–H6,
+    div, span, p) injetados via
+    `elementor/element/ever-team-members/member_info/before_section_end`;
+    a troca de tag é feita em `elementor/widget/render_content`.
+  - Os estilos de cor/tipografia do plugin usam seletores por **classe**
+    (`.ee-team-members-name` / `.ee-team-members-title`), por isso mudar a tag
+    **não afeta** a estilização (ao contrário do Distortion Grid).
+  - Ficheiro: [`inc/team-members-tags.php`](inc/team-members-tags.php)
+    (incluído via `require_once` em [`functions.php`](functions.php)).
+
+- **Footer — tag dos títulos dos widgets alterada de `<h2>` para `<p>`.**
+  Os títulos das colunas do footer eram forçados a `<h2 class="widgettitle">`
+  pelo filtro `hoteller_wrap_widget_titles` do **tema-pai**
+  (`dynamic_sidebar_params`, prioridade 1). Não vêm do `footer.php`, por isso
+  copiar o template não resolveria.
+  - Implementado **no child theme**, sem copiar ficheiros: sobrepomos o filtro
+    do pai com prioridade 20, apenas na sidebar `footer-sidebar`.
+  - O aspeto dos títulos é definido no pai por CSS base **e** por controlos de
+    tipografia do Customizer (Kirki), ambos amarrados a `h2.widgettitle`. Para o
+    `<p>` ficar idêntico, replicamos esses estilos com um **split**:
+    - **Estático** (display, color, letter-spacing, text-transform, margens) →
+      `src/sass/digid-style.sass` (compilado em `dist/css/main.css` — requer build).
+    - **Dinâmico** (font-family/size/weight) → `wp_add_inline_style` no handle
+      `digid-styles`, **lendo os theme_mods** (`tg_sidebar_title_font`,
+      `tg_sidebar_title_font_size`, `tg_sidebar_title_font_weight`) para a
+      tipografia ficar sempre em sincronia com o Customizer. Fica em PHP (e não no
+      sass) porque depende de valores do WordPress lidos em runtime.
+  - Ficheiro: [`inc/footer-widget-title-tag.php`](inc/footer-widget-title-tag.php)
+    (incluído via `require_once` em [`functions.php`](functions.php)).
+  - **Não afetado:** o `<h2>` do photostream (Instagram/Flickr) em `footer.php`,
+    que é hardcoded e raramente visível.
+
+---
+
 ## [1.1.0] — 2026-06-12
 
 ### Added

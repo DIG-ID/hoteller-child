@@ -70,6 +70,26 @@
       path
         @apply fill-blue
 
+// Footer widget titles: tag mudada de <h2> para <p> (ver inc/footer-widget-title-tag.php).
+// Propriedades ESTÁTICAS replicadas do CSS base do tema-pai (h2.widgettitle).
+// A tipografia (font-family/size/weight) é DINÂMICA — vem dos theme_mods do
+// Customizer — e é injetada via wp_add_inline_style nesse ficheiro PHP (não pode
+// viver aqui porque o sass compila no build, sem acesso a valores do WordPress).
+#footer
+  .sidebar_widget
+    li
+      p.widgettitle
+        display: inline-block
+        text-align: left
+        color: #222
+        letter-spacing: 2px
+        text-transform: uppercase
+        position: relative
+        border-bottom: 0
+        margin-top: 10px
+        margin-bottom: 10px
+        padding: 0px
+
 #footer_wrapper
   .footer_bar_wrapper
     @apply flex lg:justify-between lg:items-center flex-col lg:flex-row

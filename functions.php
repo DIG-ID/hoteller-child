@@ -173,3 +173,5 @@ add_shortcode( 'advantages', 'digid_advantages_func' );
 
 require_once get_stylesheet_directory() . '/inc/sbb-timetable-shortcode.php';
 require_once get_stylesheet_directory() . '/inc/distortion-grid-title-tag.php';
+require_once get_stylesheet_directory() . '/inc/footer-widget-title-tag.php';
+require_once get_stylesheet_directory() . '/inc/team-members-tags.php';
